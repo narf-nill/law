@@ -2,7 +2,7 @@
  "signatures": [
   {
    "keyid": "3ee0cbbdea49d1698ee17d6eb1f6c160315800026dfc29f810e0a216fa1b7e68",
-   "sig": "d5e01c36de4412b7b770eb9f295eac5ef8a7013b199c9916ad18577b1c28fb79b7d911cdd39616a68fe9dee8e948a659727f253a75d7bae2166b788cf5263a72f5fa9fc47d9872982441150c4aa82fc9044ab7bf5538abe71228d6a70e269eb152a44c76e8534f38400ca68d4613e478ff2f23460b2c6d37a1147caca49aadb5a1f8d4b38c61bec91abeb2f380daa58806fff6957cb6c82f7e3adcc7ea42cd0b7e8388e8bc044bd2c0d33abe34ed6dcf030fe710a6652af1a11714447c39b234d69d75409d3705b9b231a121c7282481ff1e4e31b7745cedbd7a4d0158758f5926dce338db528b8b89f6646e5a5ab4229b42d6d06ea58b5b896f259b4cc8e625"
+   "sig": "1ae64d497ff982f0881fb49d48ad8dd6f2b65b1ec8d5e01caba8165cf00b5787001fe79587b39122b10b8be33a8a9faafedde5a592dc9bbddbed30b9134cb46a5bf8e843d65ac2f8df3773cc5a6577a3f7cbcf50432724072b0756d7b610cff39f7599b4eac04a105c1e5d232d0d99621195301a6dbaea9cb306b253079eb980b1765419f64e74e3e8b6ecc82dcdbf7a4aacef8e651f891c8d7f33d4e8184c7effcb0779906ff08ae1686e10bdeff369c903fd9c265708bb9f41dc7bd30b303919fa8ee6ef2fce1ea90810cb4fc39f5cfc04a458c2088bf218c464e385d48d240289ade2f7b067b372020be1709814f26dbc26ea9050fda918622620780ebcf3"
   }
  ],
  "signed": {
@@ -11,7 +11,7 @@
    "keys": {},
    "roles": []
   },
-  "expires": "2025-01-15T23:26:40Z",
+  "expires": "2025-01-15T23:41:58Z",
   "spec_version": "1.0.0",
   "targets": {
    "dependencies.json": {
@@ -37,10 +37,10 @@
    },
    "scripts/update/completed/1_clone_private_html_repo.py": {
     "hashes": {
-     "sha256": "081f9d15c4dd392768b4768ca1d39f11152b3c54d14f6a7c72ec4e3c9589471f",
-     "sha512": "9229d971c78ff86b9cae7c372963dd253b266d029face6e7250e4ac4df9671b2f4ecb4dc9d3988e1f2174c2cef4ef45aedb77e78fc15fdf3b22eb791b8f7d54a"
+     "sha256": "e98c76611dc5cc4e29d150b145226edebd8fa6ff014cf86214a626a02c5b5aff",
+     "sha512": "d77e7ca1a7e26beda2c4f1e3147181c332cc69ce9cf1369aa23c1b7aeb0d15cd0d8ca7241b4cd1548534b468b4a7c392ffcca1939d90df7614beabab018b4af5"
     },
-    "length": 816
+    "length": 663
    },
    "scripts/update/completed/2_template.py": {
     "hashes": {
@@ -57,6 +57,6 @@
     "length": 1142
    }
   },
-  "version": 7
+  "version": 8
  }
 }
