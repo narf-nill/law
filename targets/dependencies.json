@@ -11,6 +11,10 @@
         "tmchippewa/law": {
             "out-of-band-authentication": "80fea6e3d398fb50a155c136824c8d45dcc8936a",
             "branch": "main"
+        },
+        "badriver-nsn/law": {
+            "out-of-band-authentication": "1a5dd6a124464d484dade605c27e7401c7a5d3f2",
+            "branch": "main"
         }
     }
 }
