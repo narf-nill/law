@@ -2,7 +2,7 @@
  "signatures": [
   {
    "keyid": "3ee0cbbdea49d1698ee17d6eb1f6c160315800026dfc29f810e0a216fa1b7e68",
-   "sig": "01a623de8611a150e5a42989c08a882d55bb876fff1acc7d511c0c36bfa362fc18f9098a9fc6cbd182269abc8d5bcdbf685c79abd28e7db06e7b4726e8133bf119d4553efa49a9bf4b53607666abaa28112de943ab27ddfcb1039793ecfbb5547b450568a4c9f04cc1d20f14fab8c8ba23329446b52033ae19324b8cf1a1f278e2bc653b4e94542e1b2541ee2d6f9eeef9ed7d0cfc74784794e26a111acdb740b56f754123591965d75189f77bc1bbbf2b29f4199ae371706754d532d1a652135c48ee7f9df9d9fd829a83e3d8893f6cd80c441bf673f3db07edff43640e56080b8170da27bd0976527c3f6ba300c8748ae36ad49e0240855b3a52a0eba74749"
+   "sig": "001e477d1245150fb2b9d06109c0a40bf2a2d0c715fce1048ddc06f414d85ca1eed10c5e3a7be5f80b42f57d9d712f582c87b3c9881a80f5ae9f22eff1b67e00aead3e6cdcab79a7947980d712b2bcce7725f5da3912044be5491966c3b1360cffde154103487ccee85ef9093bfa2862d2150b6c259d6367669e51a8002d7e3a958ae2295717fb5acd488cec8bd37af041778b2e05da3851fc906851ee306d266730074f3957ace644b490d9a725aebe4620a2ab1a60ee9931d9882310e629af2cb3dd1ddd953b4d70c0489b9a3c30e96d5b927d4d80c10ae0ae73a324bd411e09dee9b0f2b884f7abe0fb27bca17e21370cc988ef92fabe82cb42c081def36f"
   }
  ],
  "signed": {
@@ -11,7 +11,7 @@
    "keys": {},
    "roles": []
   },
-  "expires": "2023-11-02T10:27:40Z",
+  "expires": "2025-01-15T20:03:32Z",
   "spec_version": "1.0.0",
   "targets": {
    "dependencies.json": {
@@ -23,12 +23,40 @@
    },
    "mirrors.json": {
     "hashes": {
-     "sha256": "0e396f24715d7db174b8dbadb1bedccef0c6d76d81133d6c2e1c58d424ab0309",
-     "sha512": "e4883290c2b5a211163a00d0a19c8449091b6c44a6e496c6c4c36344b28db7218a4b60d3a3d56429b7c324c9281680da92134415a5e8e8caa33c537066d35d64"
+     "sha256": "fdc3d6bc31c8d14537c9947b4e24871aeeaf0ac19fb156424a0ca12cc11c08c2",
+     "sha512": "83e6f2b45cef14f14dbf22e511a6735d4e708e21e1dfb26f394578f3539adc7cc076c0c9b2d8b032b435226df2ee2b85c74f7df9c805e65e30863b198d0c8b36"
     },
-    "length": 130
+    "length": 131
+   },
+   "protected/info.json": {
+    "hashes": {
+     "sha256": "7149b3b4455cb828a1deba95508a07d824afd1afec6c5c661eca7adfd1bad479",
+     "sha512": "2b2f22906a24f96469672b59ab91516cc31e996d92eb1868c084c6f1a656057943e02aab8180744750ea3c183a7904505cce7a2a5b64b5720f0bcee3d3ee6660"
+    },
+    "length": 47
+   },
+   "scripts/update/completed/1_clone_private_html_repo.py": {
+    "hashes": {
+     "sha256": "081f9d15c4dd392768b4768ca1d39f11152b3c54d14f6a7c72ec4e3c9589471f",
+     "sha512": "9229d971c78ff86b9cae7c372963dd253b266d029face6e7250e4ac4df9671b2f4ecb4dc9d3988e1f2174c2cef4ef45aedb77e78fc15fdf3b22eb791b8f7d54a"
+    },
+    "length": 816
+   },
+   "scripts/update/completed/2_template.py": {
+    "hashes": {
+     "sha256": "9263177c7c5e7afd4624e10a5067ffb8fb5021dc0e99ca3615051daf78b525d5",
+     "sha512": "685921145bbb2e053504e1465a8a8cb28e1c900a6545c3b408b146f81dda4d0d5b83d1c9bd45c68ab46ee04741040f0a929d2ad0c0cf750503b0d52afb94150c"
+    },
+    "length": 13164
+   },
+   "scripts/update/completed/3_deploy.py": {
+    "hashes": {
+     "sha256": "7a49bf3325679aeea88eaf41c457412ee35eb8601e5a46351ed8e30f8b42b764",
+     "sha512": "5d08f8b1f2cb862eb13d0c7f0aba25d0cd4d1514b43ee2d7b2522a4df07e2ff966d1764cda32740f0afce33bc3f8cf2b69ff04d5e2b24089dfbc8c6967918390"
+    },
+    "length": 1142
    }
   },
-  "version": 2
+  "version": 3
  }
 }
