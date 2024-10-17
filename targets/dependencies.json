@@ -15,6 +15,10 @@
         "badriver-nsn/law": {
             "out-of-band-authentication": "1a5dd6a124464d484dade605c27e7401c7a5d3f2",
             "branch": "main"
+        },
+        "srmt-nsn/law": {
+            "out-of-band-authentication": "fe52cadf8bd5c52038458dbee8712973b8d5ab39",
+            "branch": "main"
         }
     }
 }
