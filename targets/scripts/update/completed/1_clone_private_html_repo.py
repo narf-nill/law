@@ -21,7 +21,7 @@ try:
     html_repo.clone()
 except Exception as e:
     send_state({"error": str(e)})
-    taf_logger.error(f"Clone failed for {repo.name}: {e}")
+    taf_logger.error(f"Clone failed for {html_repo.name}: {e}")
     sys.exit(1)
 
 send_state(data)

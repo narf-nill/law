@@ -362,4 +362,3 @@ for jurisdiction_path in get_jurisdiction_paths():
 
 if missing_jurisdictions:
     taf_logger.error(f"Could not get template config for the following jurisdictions: {missing_jurisdictions}")
-    sys.exit(1)
