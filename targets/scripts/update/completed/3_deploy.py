@@ -44,3 +44,7 @@ except Exception as e:
     send_state({"error": str(error)})
     html_repo.reset_num_of_commits(1)
     sys.exit(1)
+
+exit_code = data.get('exit-code', 0)
+if exit_code:
+    sys.exit(exit_code)

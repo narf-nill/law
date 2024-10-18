@@ -361,4 +361,6 @@ for jurisdiction_path in get_jurisdiction_paths():
     set_metadata_json(new_metadata)
 
 if missing_jurisdictions:
-    taf_logger.error(f"Could not get template config for the following jurisdictions: {missing_jurisdictions}")
+    e = f"Could not get template config for the following jurisdictions: {missing_jurisdictions}"
+    taf_logger.error(e)
+    send_state({"error": str(e), "exit-code": 1})
