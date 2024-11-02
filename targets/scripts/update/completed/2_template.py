@@ -26,6 +26,8 @@ DST_ROOT_PATH = Path(BASE_DIR / 'law-html' / 'triballaw')
 
 TEMPLATE_BASE_DIR = DST_ROOT_PATH / 'templates'
 
+METADATA_PATH = BASE_DIR / "law-html" / ".metadata.json"
+
 def _update_urls_in_place(src, namespace, attr):
     els = src.xpath(f'//*[@{attr}]')
     for el in els:
@@ -195,24 +197,34 @@ def iter_files(base_paths, skip_dotfiles=True):
 def is_jurisdiction_already_templated(jurisdiction):
     """
     Read .metadata.json file and check if the last validated commit is the same as the current commit in the authentication repository.
+    Verify that the templates/ directory hash is the same as the current commit in the law-html repository.
     """
-    try:
-        current_commit = get_current_targets_commit(jurisdiction, targets_type="law-html")
-    except (TypeError, KeyError):
-        # no target file for this jurisdiction
-        # no need to template anything, since jursdiction has no html.
-        return True
-    except Exception as e:
-        taf_logger.error(f"Could not get current commit for {jurisdiction}: {e}")
-        raise e
     metadata_path = BASE_DIR / "law-html" / ".metadata.json"
     if not metadata_path.exists():
         return False
     metadata = json.loads(metadata_path.read_text())
-    last_validated_commit = metadata.get(f"{jurisdiction}/law-html", {}).get("last_validated_commit")
-    if last_validated_commit is None:
+    for target_type in ("law-html", "law-static-assets", "law-docs"):
+        try:
+            current_commit = get_current_targets_commit(jurisdiction, targets_type=target_type)
+        except (TypeError, KeyError):
+            # no target file for this jurisdiction
+            # no need to template anything, since jursdiction has no html.
+            continue
+        except Exception as e:
+            taf_logger.error(f"Could not get current commit for {jurisdiction}: {e}")
+            raise e
+        last_validated_commit = metadata.get("jurisdictions", {}).get(jurisdiction, {}).get(target_type, {}).get("last_validated_commit")
+        if last_validated_commit is None:
+            return False
+        if last_validated_commit != current_commit:
+            return False
+    templates_dir_hash = metadata.get("templates_dir_hash")
+    if templates_dir_hash is None:
         return False
-    return last_validated_commit == current_commit
+    current_templates_dir_hash = get_templatedir_hash()
+    if templates_dir_hash != current_templates_dir_hash:
+        return False
+    return True
 
 def get_rel_dst_path(rel_src_path, namespace=None):
     if str(rel_src_path.parent) == '.' and namespace:
@@ -243,13 +255,15 @@ def get_domain(jurisdiction):
     except (TypeError, KeyError, AttributeError):
         return None
 
-def get_current_targets_commit(jurisdiction, targets_type="law-html"):
+def get_current_targets_commit(jurisdiction, targets_type):
     """
-    Get the current signed commit for the law-html repository.
+    Get the current signed commit for the targets repository.
     """
     law_repo_path = (BASE_DIR / ".." / jurisdiction / "law").resolve()
     law_repo = AuthenticationRepository(path=law_repo_path)
     targets = law_repo.get_target(f"{jurisdiction}/{targets_type}")
+    if targets is None:
+        return None
     return targets["commit"]
 
 def get_jurisdiction_map():
@@ -308,14 +322,34 @@ def process_stdin():
 def send_state(state):
     print(json.dumps(state))
 
-def set_metadata_json(new_metadata):
-    metadata_path = BASE_DIR / "law-html" / ".metadata.json"
-    if not metadata_path.exists():
-        metadata = {}
-    else:
-        metadata = json.loads(metadata_path.read_text())
-    metadata.update(new_metadata)
-    metadata_path.write_text(json.dumps(metadata, indent=2))
+def get_metadata_json():
+    if not METADATA_PATH.exists():
+        return {}
+    return json.loads(METADATA_PATH.read_text())
+
+def save_metadata_json(metadata):
+    METADATA_PATH.write_text(json.dumps(metadata, indent=2))
+
+def set_metadata_jurisdictions_json(new_metadata):
+    metadata = get_metadata_json()
+    metadata.setdefault("jurisdictions", {})
+    for jurisdiction, targets in new_metadata.items():
+        metadata["jurisdictions"].setdefault(jurisdiction, {}).update(targets)
+    save_metadata_json(metadata)
+
+def get_templatedir_hash():
+    private_html_repo = GitRepository(path=BASE_DIR / "law-html")
+    return private_html_repo._git("rev-parse HEAD:triballaw/templates").strip()
+
+def update_metadata_hash_json():
+    hash = get_templatedir_hash()
+    metadata = get_metadata_json()
+    metadata["templates_dir_hash"] = hash
+    save_metadata_json(metadata)
+
+data = process_stdin()
+data = json.loads(data)
+state = data["state"]
 
 jurisdiction_map = get_jurisdiction_map()
 
@@ -337,7 +371,7 @@ for jurisdiction_path in get_jurisdiction_paths():
         continue
     namespace = jurisdiction_map.get(jurisdiction)
     _template = get_template()
-    domain = get_domain(jurisdiction)
+    domain = get_domain(jurisdiction).strip('/')
     template_tribe_config = get_template_config(domain)
     if template_tribe_config is None:
         taf_logger.error(f"Could not get template config for {domain}. Skipping jurisdiction {jurisdiction}.")
@@ -353,14 +387,20 @@ for jurisdiction_path in get_jurisdiction_paths():
             content = src_path.read_bytes()
         dst_path.parent.mkdir(parents=True, exist_ok=True)
         dst_path.write_bytes(content)
-    new_metadata = {
-        f"{jurisdiction}/law-html": {
-            "last_validated_commit": get_current_targets_commit(jurisdiction, targets_type="law-html")
+
+    for target_type in ("law-html", "law-docs", "law-static-assets"):
+        new_metadata = {
+            jurisdiction: {
+                target_type: {
+                    "last_validated_commit": get_current_targets_commit(jurisdiction, targets_type=target_type)
+                }
+            }
         }
-    }
-    set_metadata_json(new_metadata)
+        set_metadata_jurisdictions_json(new_metadata)
+    update_metadata_hash_json()
 
 if missing_jurisdictions:
     e = f"Could not get template config for the following jurisdictions: {missing_jurisdictions}"
     taf_logger.error(e)
-    send_state({"error": str(e), "exit-code": 1})
+    state["transient"] = {"error": str(e), "exit-code": 1}
+    send_state(state)
