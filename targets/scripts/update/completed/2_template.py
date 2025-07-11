@@ -144,7 +144,7 @@ def template(template, base_src_path, rel_src_path, domain, tribe_config, namesp
 
     template = deepcopy(template)
 
-    auth_el = src.xpath('.//div[@class="tuf-authenticate"]')[0]
+    auth_el = src.xpath('.//div[contains(@class, "tuf-authenticate")]')[0]
     auth_el.set('data-url-prefix', URL_PREFIX)
     auth_el.set('data-h-offset', str(H_OFFSET))
 
