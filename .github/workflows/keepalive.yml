@@ -1,0 +1,31 @@
+name: Keepalive
+
+# GitHub disables scheduled workflows after 60 days of repository inactivity.
+# This job force-pushes a `keepalive` branch (always `main` + one empty commit)
+# once a week so the daily template update never lapses again. `main` is never
+# touched, so TAF/TUF validation of the authentication repo is unaffected.
+
+on:
+  schedule:
+    - cron: "0 3 * * 1"   # Mondays 03:00 UTC
+  workflow_dispatch:
+
+jobs:
+  keepalive:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 1
+
+      - name: Reset keepalive branch to main and push an empty commit
+        run: |
+          git config user.name "NARF NILL"
+          git config user.email "nill@narf.org"
+          git checkout -B keepalive HEAD
+          git commit --allow-empty -m "chore: keepalive $(date -u +%Y-%m-%d)"
+          git push --force origin keepalive
